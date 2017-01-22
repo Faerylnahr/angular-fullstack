@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+						http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+						http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
+
+    <context:annotation-config/>
+	
+	<util:properties id="projectProperties" location="classpath:project.properties"/>
+	
+	<util:map id="projectPropertiesMap">
+		<entry key="version" value="#{projectProperties.version}"/>
+		<entry key="buildDate" value="#{projectProperties.buildDate}"/>
+		<entry key="systemType" value=""/>
+		<entry key="database" value=""/>
+		<entry key="sap_sid" value=""/>
+	</util:map>
+	
+	<import resource="classpath:META-INF/cxf/cxf.xml"/>
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
+
+	<bean id="propertiesServiceBean" class="de.faerylnahr.test.ngfullstackbackend.rest.PropertiesRestService" />
+
+	<jaxrs:server id="myAppService" address="/">
+		<jaxrs:serviceBeans>
+			<ref bean="propertiesServiceBean" />
+		</jaxrs:serviceBeans>
+		<jaxrs:providers>
+			<bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" />
+		</jaxrs:providers>
+	</jaxrs:server>
+</beans>

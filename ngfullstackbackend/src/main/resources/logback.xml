@@ -1,0 +1,31 @@
+<configuration>
+	<property name="VERSION" value="${project.version}" />
+
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	    <file>${catalina.base}/logs/${project.build.finalName}.log</file>
+	    
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>${catalina.base}/logs/archive/${project.build.finalName}.%d{yyyy-MM-dd}.log</fileNamePattern>
+
+			<!-- keep 30 days' worth of history -->
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} ${VERSION} %-5level %logger{32} - %msg%n
+			</pattern>
+		</encoder>
+  	</appender>
+	
+
+	<root level="info">
+		<appender-ref ref="FILE" />
+	</root>
+
+	<logger name="de.kspg" level="INFO" />
+	<logger name="org.hibernate.SQL" level="INFO" />
+	<logger name="org.hibernate.cfg" level="INFO" />
+	<logger name="org.springframework" level="INFO" />
+	<logger name="org.apache.cxf" level="INFO" />
+</configuration>

@@ -90,24 +90,24 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- see http://csetutorials.com/deploy-angular-2-maven-webapp-on-tomcat.html -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>2.6</version>
                 <executions>
                     <execution>
-                        <id>copy-resources</id>
-                        <phase>install</phase>
+                        <id>default-copy-resources</id>
+                        <phase>process-resources</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>src/main/webapp</outputDirectory>
+                            <outputDirectory>${project.basedir}/target/sample-app/</outputDirectory>
                             <encoding>UTF-8</encoding>
                             <resources>
                                 <resource>
                                     <directory>${project.basedir}/src/main/webapp/sample/dist</directory>
-                                    <filtering>true</filtering>
                                 </resource>
                             </resources>
                         </configuration>
@@ -117,9 +117,8 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.6</version>
+                <version>3.0.0</version>
                 <configuration>
-                    <!-- ToDo sample umbenennen in angular -->
                     <warSourceExcludes>sample/**</warSourceExcludes>
                 </configuration>
             </plugin>
